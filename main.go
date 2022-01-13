@@ -30,6 +30,7 @@ func main() {
 	showVersion := flag.Bool("version", false, "Show the enry version information")
 	allLangs := flag.Bool("all", false, "Show all files, including those identifed as non-programming languages")
 	progLangs := flag.Bool("prog", false, "Show only files identifed as programming languages only")
+	docLangs := flag.Bool("doc", false, "Show documentation files")
 	countMode := flag.String("mode", "byte", "the method used to count file size. Available options are: file, line and byte")
 	limitKB := flag.Int64("limit", 16*1024, "Analyse first N KB of the file (-1 means no limit)")
 	flag.Parse()
@@ -84,7 +85,7 @@ func main() {
 		}
 
 		if enry.IsVendor(relativePath) || enry.IsDotFile(relativePath) ||
-			enry.IsDocumentation(relativePath) || enry.IsConfiguration(relativePath) ||
+			(enry.IsDocumentation(relativePath) && !*docLangs) || enry.IsConfiguration(relativePath) ||
 			enry.IsGenerated(relativePath, nil) {
 			if f.IsDir() {
 				return filepath.SkipDir
