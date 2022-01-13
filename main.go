@@ -128,6 +128,10 @@ func main() {
 			return nil
 		}
 
+		if *docLangs && enry.IsDocumentation(relativePath) {
+			language = "Documentation"
+		}
+
 		out[language] = append(out[language], relativePath)
 		return nil
 	})
